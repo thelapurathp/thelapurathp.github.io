@@ -1,0 +1,28 @@
+{% extends "layouts.html" %}
+
+{% block title %}
+    Courses
+{% endblock %}
+
+{% block main %}
+    <h1>Bentonville West Courses</h1>
+    <br>
+    <!-- Display courses by department -->
+    {% for department in departments %}
+        <div class="dropdown">
+            <button class="drop-button">{{ department.department }}</button>
+            <div class="dropdown-course">
+                {% for course in courses %}
+                    <!-- Only display courses in the department -->
+                    {% if course.department == department.department %}
+                        <!-- Redirect user to course page when course name clicked -->
+                        <form action="/courses" method="post">
+                            <button name="selection" type="submit" value="{{ course.title }}" class="course-button">{{ course.title }}</button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}

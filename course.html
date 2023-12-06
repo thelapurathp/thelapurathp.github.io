@@ -1,0 +1,141 @@
+{% extends "layouts.html" %}
+
+<!-- Create dynamic html page title based on course -->
+{% block title %}
+    {% for info in course_details %}
+        {{ info.title }}
+    {% endfor %}
+{% endblock %}
+
+{% block main %}
+    {% for info in course_details %}
+        <!-- List details of course -->
+        <h1>{{ info.title }}</h1>
+        <br>
+        <p>{{ info.description }}</p>
+        <p>{{ info.credit }} credit(s)</p>
+        <p>Prerequisites: {{ info.prereq }}</p>
+        <!-- Create forms to add course to favorites or to schedule -->
+        <form action="/addfavorite" method="post">
+            <button class="btn btn-primary" name="favorite" value="{{ info.code }}" type="submit">Add to Favorites</button>
+        </form>
+        <div class="dropdown">
+            <button class="btn btn-primary" class="drop-button">Add to Schedule</button>
+            <div class="dropdown-course">
+                <form action="/myschedule" method="post">
+                    <button name="schedule" type="submit" value="9" class="grade-btn">9th Grade</button>
+                    <button name="schedule" type="submit" value="10" class="grade-btn">10th Grade</button>
+                    <button name="schedule" type="submit" value="11" class="grade-btn">11th Grade</button>
+                    <button name="schedule" type="submit" value="12" class="grade-btn">12th Grade</button>
+                    <input type="hidden" name="course" value="{{ info.code }}">
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+    <!-- Display graph visualizations of evaluations if data is available, or state there are no evaluations -->
+    {% if not data %}
+        <br>
+        <p>There are no evaluations for this course.</p>
+    {% else %}
+    <div>
+        <script>
+            // Create first bar graph of overall evaluations. Code from: https://www.educative.io/courses/introduction-to-visualization-using-d3-js/39VrwlDRPq4
+            var margin = {top: 20, right: 150, bottom: 60, left: 170},
+                 width = 900 - margin.left - margin.right,
+                 height = 400 - margin.top - margin.bottom;
+            var svg = d3.select("body") //create Svg element
+               .append("svg")
+               .attr('width', width + margin.right + margin.left)
+               .attr('height', height + margin.top + margin.bottom)
+               .attr("transform","translate(100,0)"); // Align svg at the center in the output tab.
+            var data = {{ data[:6] | tojson }};       // Enter data from python
+            var x = d3.scaleBand()
+                .domain(data.map(d => d.evaluation))
+                .range([0, width])
+                .padding(0.2);
+            var y = d3.scaleLinear()
+                .domain([0, 5])
+                .range([height, 0]);
+            var chart=svg.append('g')
+               .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+               .attr('width', width)
+               .attr('height', height)
+            chart.append('g')
+                .call(d3.axisLeft(y))
+            chart.append('g')
+                .call(d3.axisBottom(x))
+                .attr('transform', 'translate(0,' + height + ')')
+            chart.selectAll('rect')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('width', x.bandwidth)
+                .attr('height', d => height - y(d.rating))
+                .attr('x', d => x(d.evaluation))
+                .attr('y', d => y(d.rating))
+                .attr('fill','#0D1E44');
+            svg.append("text")                                 // Labelling y-axis
+                .text("Rating")
+                .attr('transform', "translate(120,200) rotate(-90)");
+
+            // Create second bar graph of time commitment. Code from: https://www.educative.io/courses/introduction-to-visualization-using-d3-js/39VrwlDRPq4
+            var margin = {top: 20, right: 80, bottom: 60, left: 80},
+                 width = 400 - margin.left - margin.right,
+                 height = 400 - margin.top - margin.bottom;
+            var svg = d3.select("body") //create Svg element
+               .append("svg")
+               .attr('width', width + margin.right + margin.left)
+               .attr('height', height + margin.top + margin.bottom)
+               .attr("transform","translate(100,0)"); // Align svg at the center in the output tab.
+            var data = {{ data[6:7] | tojson }};
+            var x = d3.scaleBand()
+                .domain(data.map(d => d.evaluation))
+                .range([0, width])
+                .padding(0.2);
+            var y = d3.scaleLinear()
+                .domain([0, 20])
+                .range([height, 0]);
+            var chart=svg.append('g')
+               .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+               .attr('width', width)
+               .attr('height', height)
+            chart.append('g')
+                .call(d3.axisLeft(y))
+            chart.append('g')
+                .call(d3.axisBottom(x))
+                .attr('transform', 'translate(0,' + height + ')')
+            chart.selectAll('rect')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('width', x.bandwidth)
+                .attr('height', d => height - y(d.rating))
+                .attr('x', d => x(d.evaluation))
+                .attr('y', d => y(d.rating))
+                .attr('fill','#0D1E44');
+            svg.append("text")                                 // Labelling y-axis
+                .text("Hours/Week")
+                .attr('transform', "translate(50,200) rotate(-90)");
+        </script>
+    </div>
+    <!-- Display comments in table, if any -->
+    <br><br>
+    <div class="comments">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.Comments }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br><br>
+    </div>
+    {% endif %}
+{% endblock %}

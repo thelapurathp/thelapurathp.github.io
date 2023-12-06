@@ -1,0 +1,90 @@
+{% extends "layouts.html" %}
+
+{% block title %}
+    Evaluate
+{% endblock %}
+
+{% block main %}
+    {% for title in course %}
+        <!-- Create heading for page of course title -->
+        <h1>{{ title.title }}</h1>
+        <br>
+    {% endfor %}
+    <!-- Create form to send all inputted values via POST -->
+    <form action="/evaluate" method="post">
+        <div class="evalDiv">
+            <br>
+            <!-- Organize ratings by Course and Instructor Evaluations -->
+            <p><b>Course Evaluations</b></p>
+            <!-- Provide overview of evaluation measures -->
+            <p>Rank the following criteria: how was the course overall, how difficult was the course, what did you think of the course materials, how did you like the assignments, and how many hours per week did you spend on this class?</p>
+            <!-- Hidden input to save course code in form response -->
+            <input type="hidden" name="code" value="{{ code }}">
+            <!-- Create a slider to rate each evaluation measure. Code from: https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+            {% for rating in evaluations %}
+                <div class="sliderdiv">
+                    <!-- Create special slider for Time evaluation measure since units are different -->
+                    {% if rating == "Time" %}
+                        <p><i>{{ rating }} Commitment</i></p>
+                        <input type="range" min="1" max="20" value="10" class="slider" name="{{ rating }}" id="{{ rating }}">
+                        <p>Hours/Week: <span id="rating_{{ rating }}"></span></p>
+                    <!-- Display rating below slider -->
+                    {% else %}
+                        <p><i>{{ rating }}</i></p>
+                        <input type="range" min="1" max="5" value="3" class="slider" name="{{ rating }}" id="{{ rating }}">
+                        <p>Rating: <span id="rating_{{ rating }}"></span></p>
+                    {% endif %}
+                    <br>
+                </div>
+                <!-- Display rating below slider JS -->
+                <script>
+                    var {{ rating }} = document.getElementById("{{ rating }}");
+                    var output_{{ rating }} = document.getElementById("rating_{{ rating }}");
+                    output_{{ rating }}.innerHTML = {{ rating }}.value; // Display the default slider value
+
+                    // Update the current slider value
+                    {{ rating }}.oninput = function() {
+                        output_{{ rating }}.innerHTML = this.value;
+                    }
+                </script>
+            {% endfor %}
+        </div>
+        <br>
+        <!-- Repeat above for Instructor Evaluation measures -->
+        <div class="evalDiv">
+            <br>
+            <p><b>Instructor Evaluations</b></p>
+            <p>Rank the following criteria where 1 indicates "strongly disliked" and 5 indicates "strongly liked": the quality of class instruction, and the feedback you received from the instructor.</p>
+            {% for rating in teacherEval %}
+                <div class="sliderdiv">
+                    <p><i>{{ rating }}</i></p>
+                    <input type="range" min="1" max="5" value="3" class="slider" name="{{ rating }}" id="{{ rating }}">
+                    <p>Rating: <span id="rating_{{ rating }}"></span></p>
+                </div>
+                <script>
+                    var {{ rating }} = document.getElementById("{{ rating }}");
+                    var output_{{ rating }} = document.getElementById("rating_{{ rating }}");
+                    output_{{ rating }}.innerHTML = {{ rating }}.value; // Display the default slider value
+
+                    // Update the current slider value (each time you drag the slider handle)
+                    {{ rating }}.oninput = function() {
+                        output_{{ rating }}.innerHTML = this.value;
+                    }
+                </script>
+            {% endfor %}
+            <br>
+        </div>
+        <br>
+        <!-- Display comments in large textbox -->
+        <div class="evalDiv">
+            <br>
+            <div>
+                <p><i>Comments</i></p>
+                <textarea rows = "5" cols = "60" id="comments" autocomplete="off" name="comments" placeholder="Add any comments you have about the course..."></textarea>
+            </div>
+            <br>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}

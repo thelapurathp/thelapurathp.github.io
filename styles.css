@@ -1,0 +1,237 @@
+/* Set Bentonville West High School font and color to entire page */
+body
+{
+    font-family: Droid Serif;
+    color: #0D1E44;
+}
+
+nav .navbar-brand
+{
+    /* Size for brand */
+    font-size: xx-large;
+}
+
+/* Colors for West Watch */
+nav .navbar-brand .blue
+{
+    color: #0D1E44;
+}
+
+/* Resize logo image for navbar */
+#logo
+{
+    width: 70px;
+    height: auto;
+}
+
+main .form-control
+{
+    /* Center form controls */
+    display: inline-block;
+
+    /* Override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* Scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* Center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* Constrain images on small screens */
+    max-width: 100%;
+}
+
+main #index-para
+{
+    /* Add line height for main page para */
+    line-height: 2.5;
+}
+
+/* Dropdown button features */
+.drop-button
+{
+    background-color: #0D1E44;
+    color: white;
+    width: 1000px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.dropdown
+{
+    display: inline-block;
+    padding: 10px;
+}
+
+.dropdown-course
+{
+    display: none;
+    position: static;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-course a
+{
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Hover feature for dropdown */
+.dropdown-course a:hover
+{
+    background-color: #f1f1f1
+}
+
+/* Display dropdown features on hover */
+.dropdown:hover .dropdown-course
+{
+    display: table;
+    width: 1000px;
+}
+
+/* Add button sizing */
+.course-button
+{
+    width: 1000px;
+    padding: 5px;
+}
+
+/* Make grade button smaller in size */
+.grade-btn
+{
+    width: 100px;
+}
+
+/* Slider specifications */
+.sliderdiv
+{
+    width: 100%;
+}
+
+.slider
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 70%;
+    height: 10px;
+    border-radius: 5px;
+    background: white;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+/* Increase opacity on hover */
+.slider:hover
+{
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px;
+    border-radius: 50%;
+    background: #0D1E44;
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px;
+    border-radius: 50%;
+    background: #0D1E44;
+    cursor: pointer; /* Cursor on hover */
+}
+
+/* Color div background to match branding */
+.evalDiv
+{
+    background: #CEBB89;
+    border-radius: 15px;
+}
+
+/* Center text in all input fields */
+input
+{
+    text-align: center;
+}
+
+/* Arrange comments textbox */
+#comments
+{
+    height: 300px;
+    width: 1000px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Set branding for all buttons */
+.btn
+{
+    background-color: #CEBB89;
+    border: none;
+}
+
+.btn:hover
+{
+    background-color: #0D1E44;
+}
+
+/* Style all font awesome icons */
+.fa {
+    padding: 6px;
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+/* Instagram */
+.fa-instagram {
+    background: #DD2A7B;
+    color: white;
+}
+
+
+/* Resize image for login */
+.wolverine
+{
+    width: 500px;
+}

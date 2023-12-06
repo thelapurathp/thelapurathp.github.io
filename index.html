@@ -1,27 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <!-- This is a HTML comment. -->
-        <title>Hello!</title>
+{% extends "layouts.html" %}
 
-        <style>
-            /* This is a CSS comment. */
-            .text
-            {
-                color: pink;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Welcome to my website!</h1>
-        <div class="text">
-            <p>
-            Hello, world! My name is Priya, and I am a student in Lowell House at Harvard College.
-            </p>
-            <p>
-            Fun fact, I have lived in Bentonville, Arkansas my whole life.
-            </p>
-        </div>
+{% block title %}
+    Home
+{% endblock %}
 
-    </body>
-</html>
+{% block main %}
+    <div>
+        <h1>Welcome to West Watch, {{ name.name }}!</h1>
+        <br>
+        <p id="index-para">Welcome to West Watch, a site where you can browse and evaluate course offerings at
+            <br>Bentonville West High School and create a sample schedule.</p>
+        <br>
+        <h4>View <b>courses</b>, <b>evaluate</b> your courses,
+            <br>select your <b>favorite</b> courses
+            <br>and create your <b>schedule</b> now!</h4>
+    </div>
+    <br>
+    <img class="wolverine" src="/static/wolverine1.jpeg" alt="logo1">
+{% endblock %}

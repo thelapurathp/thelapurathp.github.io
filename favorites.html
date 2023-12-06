@@ -1,0 +1,29 @@
+{% extends "layouts.html" %}
+
+{% block title %}
+    Favorites
+{% endblock %}
+
+{% block main %}
+    <h1>My Favorite Courses</h1>
+    <br>
+    <!-- Only display favorites if table is not empty, otherwise state that there are no courses in favorites -->
+    {% if favorites %}
+        {% for course in favorites %}
+            <div class="dropdown">
+                <!-- Create form to redirect user to course page -->
+                <form action="/courses" method="post">
+                    <button class="drop-button" name="selection" type="submit" value="{{ course.title }}">{{ course.title }}</button>
+                </form>
+                <!-- Create form to allow user to delete course form favorites -->
+                <form action="/favorites" method="post">
+                    <div class="dropdown-course">
+                        <button name="delete" type="submit" value="{{ course.code }}" class="course-button">Delete</button>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No courses added to favorites.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "layouts.html" %}
+
+{% block title %}
+    Favorites
+{% endblock %}
+
+{% block head %}
+    <!-- Code to enable screenshot. Code from: https://stackoverflow.com/questions/42828187/how-to-take-a-screenshot-in-html-with-javascript. -->
+    <script>
+        var takeScreenShot = function() {
+            html2canvas(document.getElementById("container"), {
+                onrendered: function (canvas) {
+                    var tempcanvas=document.createElement('canvas');
+                    tempcanvas.width=screen.width - 500;
+                    tempcanvas.height=screen.height;
+                    var context=tempcanvas.getContext('2d');
+                    context.drawImage(canvas, 0, 0, screen.width - 500, screen.height);
+                    var link=document.createElement("a");
+                    link.href=tempcanvas.toDataURL('image/jpg');   //function blocks CORS
+                    link.download = 'schedule.jpg';
+                    link.click();
+                }
+            });
+        };
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <h1>My Schedule</h1>
+        <br>
+        <div>
+        <!-- Loop through each grade, adding courses from schedule if data is available -->
+        {% if courses %}
+            {% for grade in grades %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ grade }}th Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for course in courses %}
+                    <!-- Only display courses correlated with current grade in loop -->
+                    {% if course.grade == grade %}
+                        <tr>
+                            <td>
+                                <div>
+                                    <!-- Add button to delete course from schedule -->
+                                    <form action="/myschedule" method="post">
+                                        {{ course.title }} ({{ course.credit }} credits) <button name="delete" type="submit" value="{{ course.title }}">-</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+                <!-- Display credit totals at the bottom of the table for each grade -->
+                <tfooter>
+                {% for credit in credits9 %}
+                    <!-- Display total only if correlating to current grade in loop -->
+                    {% if credit.grade == grade %}
+                        <tr>
+                            <td>Total Credits: {{ credit.credit }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% for credit in credits10 %}
+                    {% if credit.grade == grade %}
+                        <tr>
+                            <td>Total Credits: {{ credit.credit }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% for credit in credits11 %}
+                    {% if credit.grade == grade %}
+                        <tr>
+                            <td>Total Credits: {{ credit.credit }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% for credit in credits12 %}
+                    {% if credit.grade == grade %}
+                        <tr>
+                            <td>Total Credits: {{ credit.credit }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tfooter>
+            </table>
+            <br>
+            {% endfor %}
+        <!-- Display no courses if data is unavailable -->
+        {% else %}
+            <p>No courses added to schedule.</p>
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- Add button to take a screenshot of schedule to share -->
+    <button class="btn btn-primary" onclick="takeScreenShot()">Capture Schedule</button>
+    <!-- Add button to randomly generate new full schedule -->
+    <form action="/myschedule" method="post">
+        <br>
+        <button class="btn btn-primary" name="random" value="random" type"submit">Generate Random Schedule</button>
+    </form>
+    <br><br>
+    <!-- Add font awesome icons to allow user to share schedule via social media. Code from: https://www.w3schools.com/howto/howto_css_social_media_buttons.asp -->
+    <a href="https://www.facebook.com" class="fa fa-facebook"></a>
+    <a href="https://www.twitter.com" class="fa fa-twitter"></a>
+    <a href="https://www.instagram.com" class="fa fa-instagram"></a>
+{% endblock %}

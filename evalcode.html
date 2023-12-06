@@ -1,0 +1,17 @@
+{% extends "layouts.html" %}
+
+{% block title %}
+    Evaluate Code
+{% endblock %}
+
+{% block main %}
+    <h4>Enter Course Code</h4>
+    <br>
+    <!-- Send entered code to evalcode function in Python -->
+    <form action="/evalcode" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus="on" class="form-control" name="code" placeholder="Course Code" type="text">
+        </div>
+        <button class="btn btn-primary" name="codeSubmit" type="submit">Submit</button>
+    </form>
+{% endblock %}
